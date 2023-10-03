@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { SettingsState } from '@/types'
+import { SettingsState, ThemeModes } from '@/types'
 import { NotesSortKey, DirectionText } from '@/utils/enums'
 
 export const initialState: SettingsState = {
   previewMarkdown: false,
   darkTheme: false,
+  themeMode: ThemeModes.SYNC_BY_SYSTEM,
   sidebarVisible: true,
   notesSortKey: NotesSortKey.LAST_UPDATED,
   codeMirrorOptions: {
@@ -43,6 +44,9 @@ const settingsSlice = createSlice({
     toggleDarkTheme: (state) => {
       state.darkTheme = !state.darkTheme
     },
+    changeThemeMode: (state, { payload }: PayloadAction<string>) => {
+      state.themeMode = payload
+    },
 
     updateNotesSortStrategy: (state, { payload }: PayloadAction<NotesSortKey>) => {
       state.notesSortKey = payload
@@ -67,6 +71,7 @@ export const {
   updateCodeMirrorOption,
   toggleDarkTheme,
   togglePreviewMarkdown,
+  changeThemeMode,
   updateNotesSortStrategy,
   loadSettings,
   loadSettingsError,

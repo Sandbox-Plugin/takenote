@@ -26,6 +26,7 @@ import { NoteItem, CategoryItem } from '@/types'
 import { loadNotes } from '@/slices/note'
 import { loadSettings } from '@/slices/settings'
 import { getSettings, getNotes, getCategories, getSync } from '@/selectors'
+import { NewThemeService } from '@/newThemeService'
 
 dayjs.extend(localizedFormat)
 dayjs.locale(getDayJsLocale(navigator.language))
@@ -97,6 +98,8 @@ export const TakeNoteApp: React.FC = () => {
       </Helmet>
 
       <TempStateProvider>
+        <NewThemeService />
+
         <div className={determineAppClass(darkTheme, sidebarVisible, activeFolder)}>
           <DragDropContext onDragEnd={onDragEnd}>
             <SplitPane split="vertical" minSize={150} maxSize={500} defaultSize={240}>
