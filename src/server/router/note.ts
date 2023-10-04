@@ -1,12 +1,17 @@
-import express from 'express'
-
 import noteHandler from '../handlers/note'
-import checkAuth from '../middleware/checkAuth'
 
-const router = express.Router()
+export function getNote(req: any, res: any, next: any) {
+    noteHandler.get(req, res);
+  }
 
-router.post('/note', noteHandler.save)
-router.get('/note', checkAuth, noteHandler.get)
-router.delete('/note', noteHandler.delete)
+  export function getAllNotes(req: any, res: any, next: any) {
+    noteHandler.getAll(req, res);
+  }
 
-export default router
+  export function saveNote(req: any, res: any, next: any) {
+    noteHandler.store(req, res);
+  }
+
+  export function deleteNote(req: any, res: any, next: any) {
+    noteHandler.delete(req, res);
+  }

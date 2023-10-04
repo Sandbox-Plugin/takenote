@@ -1,4 +1,5 @@
 import { Note } from "./Note";
+import { NoteCategory } from "./NoteCategory";
 
 const sqlite3 = require('sqlite3').verbose()
 
@@ -17,26 +18,30 @@ export class Database {
 
     private constructor() {
         this.db = new sqlite3.Database('TakeNote.db')
-        this.db.run(`CREATE TABLE IF NOT EXISTS Note (
+        const createNoteQuery = `CREATE TABLE IF NOT EXISTS NoteCategory (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            userToken TEXT, 
+            name TEXT
+            )`;
+        const createCategoryQuery = `CREATE TABLE IF NOT EXISTS Note (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             content TEXT,
-            category TEXT,
+            noteCategoryId INTEGER,
             scratchpad boolean,
             favorite boolean,
             created TEXT,
-            lastUpdated TEXT
-            )`);
-        this.close();
+            lastUpdated TEXT,
+            FOREIGN KEY(noteCategoryId) REFERENCES NoteCategory(id)
+            )`;
+        this.db.run(createCategoryQuery);
+        this.db.run(createNoteQuery);
     }
 
-    store(note: Note, userToken: string) {
+    storeNote(note: Note) {
         const stmt = this.db.prepare(`
             INSERT INTO Note 
-            (userToken, content, category, scratchpad, favorite, created, lastUpdated) VALUES (    
-            ${userToken},
-            ${note.content},
-            ${note.category},
+            (content, noteCategoryId, scratchpad, favorite, created, lastUpdated) VALUES (    
+            '${note.content}',
+            ${note.noteCategoryId},
             ${note.scratchpad},
             ${note.favorite},
             datetime('now'),
@@ -44,56 +49,95 @@ export class Database {
         )`)
         stmt.run()
         stmt.finalize()
-        this.close();
     }
 
-    get(id: number, userToken: string): Promise<Note> {
+    getNote(id: any, callback: any) {
         const sql = `SELECT * FROM Note
-           WHERE id = ${id} AND userToken=${userToken}`;
+           WHERE id = ${id}`;
+
+        this.db.get(sql, [], (err: any, row: any) => {
+            if (err) {
+                
+                callback(null);
+            }
+            let note;
+            if (row) {
+                note = new Note(row.id, row.content, row.category, row.scratchpad,
+                    row.favorite, row.created, row.lastUpdated);
+            }
+            
+            callback(note)
+        });
+    }
+
+    getAllNotes(callback: any): Promise<Array<Note>> {
+        const sql = `SELECT * FROM Note`;
+        const notes: Array<Note> = new Array();
+
+        return this.db.all(sql, [], (err: any, rows: any[]) => {
+            if (err) {
+                callback(null);
+            }
+            rows.forEach((row) => {
+                notes.push(new Note(row.id, row.content, row.category, row.scratchpad,
+                    row.favorite, row.created, row.lastUpdated));
+            });
+            callback(notes);
+        });
+    }
+
+    deleteNote(id: any) {
+        const stmt = this.db.prepare(`DELETE FROM Note where id = ${id}`);
+        stmt.run()
+        stmt.finalize()
+    }
+
+    storeNoteCategory(noteCategory: NoteCategory) {
+        const stmt = this.db.prepare(`
+            INSERT INTO NoteCategory 
+            (name) VALUES (    
+            '${noteCategory.name}'
+        )`)
+        stmt.run()
+        stmt.finalize()
+    }
+
+    getNoteCategory(id: any, callback: any): Promise<NoteCategory> {
+        const sql = `SELECT * FROM NoteCategory
+           WHERE id = ${id}`;
 
         return this.db.get(sql, [], (err: any, row: any) => {
             if (err) {
-                this.close();
-                
-                return err;
+                callback(null)
             }
 
-            const note = new Note(row.id, row.userToken, row.content, row.category, row.scratchpad,
-                row.favorite, row.created, row.lastUpdated);
-            this.close();
-            
-            return note;
+            let noteCategory;
+            if (row) {
+                noteCategory = new NoteCategory(row.id, row.name);
+            }
+            callback(noteCategory)
         });
     }
 
-    getAll(userToken: string): Promise<Array<Note>> {
-        const sql = `SELECT * FROM Note
-           WHERE userToken=?`;
-        const notes: Array<Note> = new Array();
+    getAllNoteCategories(callback: any): Promise<Array<NoteCategory>> {
+        const sql = `SELECT * FROM NoteCategory`;
+        const noteCategories: Array<NoteCategory> = new Array();
 
-        return this.db.all(sql, [userToken], (err: any, rows: any[]) => {
+        return this.db.all(sql, [], (err: any, rows: any[]) => {
             if (err) {
-                this.close();
-
-                return err;
+                callback(null);
             }
             rows.forEach((row) => {
-                notes.push(new Note(row.id, row.userToken, row.content, row.category, row.scratchpad,
-                    row.favorite, row.created, row.lastUpdated));
+                noteCategories.push(new NoteCategory(row.id, row.name));
             });
-
-            this.close();
-
-            return notes;
+            callback(noteCategories);
         });
     }
 
-
-    delete(id: number, userToken: string) {
-        const stmt = this.db.prepare(`DELETE FROM Note where id = ${id} AND userToken = ${userToken}`);
+    deleteNoteCategory(id: any) {
+        const stmt = this.db.prepare(`DELETE FROM NoteCategory where id = ${id}`);
         stmt.run()
         stmt.finalize()
-        this.close();
     }
 
     close() {

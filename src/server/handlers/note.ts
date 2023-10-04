@@ -1,27 +1,33 @@
 import { Request, Response } from 'express'
 
 import { Database } from "../utils/data/database"
+import { Note } from '../utils/data/Note';
 
 
 export default {
-    get: async (request: Request, response: Response) => {
+    get: (request: Request, response: Response) => {
         const database = Database.getInstance();
-        const accessToken = request.cookies?.githubAccessToken
-        const { accessToken2 } = response.locals
-        console.log('res ', accessToken, accessToken2, database.get(request.body.id, accessToken));
-        response.status(200).send(database.get(request.body.id, accessToken))
+        database.getNote(request.query.id, (note: any) => {
+          response.status(200).send(note);            
+        });
     },
   
-    save: async (request: Request, response: Response) => {
+    getAll: (request: Request, response: Response) => {
+        const database = Database.getInstance();
+        database.getAllNotes((notes: any) => {
+          response.status(200).send(notes);
+        })
+    },
+
+    store: async (request: Request, response: Response) => {
 
         const database = Database.getInstance();
-        // const { accessToken } = response.locals
-        const accessToken = request.cookies?.githubAccessToken
-        response.status(200).send(database.store(request.body.note, accessToken))
+        response.status(200).send(database.storeNote(request.body))
     },
   
     delete: async (request: Request, response: Response) => {
-  
-      response.status(200).send({ message: 'Logged out' })
+
+      const database = Database.getInstance();
+      response.status(200).send(database.deleteNote(request.query.id))
     },
   }
