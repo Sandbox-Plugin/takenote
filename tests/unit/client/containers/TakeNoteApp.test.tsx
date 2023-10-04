@@ -6,6 +6,7 @@ import { name, internet, lorem } from 'faker'
 import { getAuth, getCategories, getSettings, getNotes, getSync } from '@/selectors'
 import { Folder, NotesSortKey } from '@/utils/enums'
 import { TakeNoteApp } from '@/containers/TakeNoteApp'
+import { ThemeModes } from '@/types'
 
 import { renderWithRouter } from '../testHelpers'
 
@@ -39,6 +40,7 @@ describe('<TakeNoteApp />', () => {
         loading: false,
         previewMarkdown: false,
         darkTheme: false,
+        themeMode: ThemeModes.SYNC_BY_SYSTEM,
         sidebarVisible: true,
         notesSortKey: NotesSortKey.LAST_UPDATED,
         codeMirrorOptions: {

@@ -41,8 +41,10 @@ const settingsSlice = createSlice({
       state.previewMarkdown = !state.previewMarkdown
     },
 
-    toggleDarkTheme: (state) => {
-      state.darkTheme = !state.darkTheme
+    toggleDarkTheme: (state, { payload }: PayloadAction<boolean | undefined>) => {
+      if (payload !== undefined) {
+        state.darkTheme = payload
+      } else state.darkTheme = !state.darkTheme
     },
     changeThemeMode: (state, { payload }: PayloadAction<string>) => {
       state.themeMode = payload

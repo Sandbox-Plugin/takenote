@@ -17,12 +17,18 @@ import {
   togglePreviewMarkdown,
   toggleDarkTheme,
   updateNotesSortStrategy,
+  changeThemeMode,
 } from '@/slices/settings'
 import { updateNotes, importNotes } from '@/slices/note'
 import { logout } from '@/slices/auth'
 import { importCategories } from '@/slices/category'
-import { shortcutMap, notesSortOptions, directionTextOptions } from '@/utils/constants'
-import { CategoryItem, NoteItem, ReactMouseEvent } from '@/types'
+import {
+  shortcutMap,
+  notesSortOptions,
+  directionTextOptions,
+  themesModeOptions,
+} from '@/utils/constants'
+import { CategoryItem, NoteItem, ReactMouseEvent, ThemeModes } from '@/types'
 import { getSettings, getAuth, getNotes, getCategories } from '@/selectors'
 import { Option } from '@/components/SettingsModal/Option'
 import { Shortcut } from '@/components/SettingsModal/Shortcut'
@@ -35,15 +41,15 @@ import { TabPanel } from '@/components/Tabs/TabPanel'
 import { LabelText } from '@resources/LabelText'
 import { TestID } from '@resources/TestID'
 import { IconButtonUploader } from '@/components/SettingsModal/IconButtonUploader'
+import { initSystemThemeMode } from '@/newThemeService'
 
 export const SettingsModal: React.FC = () => {
   // ===========================================================================
   // Selectors
   // ===========================================================================
 
-  const { codeMirrorOptions, isOpen, previewMarkdown, darkTheme, notesSortKey } = useSelector(
-    getSettings
-  )
+  const { codeMirrorOptions, isOpen, previewMarkdown, darkTheme, notesSortKey, themeMode } =
+    useSelector(getSettings)
   const { currentUser } = useSelector(getAuth)
   const { notes, activeFolder, activeCategoryId } = useSelector(getNotes)
   const { categories } = useSelector(getCategories)
@@ -58,6 +64,7 @@ export const SettingsModal: React.FC = () => {
   const _toggleSettingsModal = () => dispatch(toggleSettingsModal())
   const _togglePreviewMarkdown = () => dispatch(togglePreviewMarkdown())
   const _toggleDarkTheme = () => dispatch(toggleDarkTheme())
+  const _changeThemeMode = (mode: string) => dispatch(changeThemeMode(mode))
   const _updateNotesSortStrategy = (sortBy: NotesSortKey) =>
     dispatch(updateNotesSortStrategy(sortBy))
   const _updateCodeMirrorOption = (key: string, value: any) =>
@@ -89,10 +96,30 @@ export const SettingsModal: React.FC = () => {
   }
 
   const togglePreviewMarkdownHandler = () => _togglePreviewMarkdown()
-  const toggleDarkThemeHandler = () => {
-    _toggleDarkTheme()
-    _updateCodeMirrorOption('theme', darkTheme ? 'base16-light' : 'new-moon')
+
+  const toggleThemeModeHandler = (mode: { value: string; label: string }) => {
+    let themeName
+    switch (mode.value) {
+      case ThemeModes.DARK:
+        themeName = 'new-moon'
+        if (!darkTheme) _toggleDarkTheme()
+        break
+      default:
+      case ThemeModes.LIGHT:
+        themeName = 'base16-light'
+        if (darkTheme) _toggleDarkTheme()
+        break
+      case ThemeModes.SYNC_BY_SYSTEM:
+        themeName = initSystemThemeMode ? 'new-moon' : 'base16-light'
+
+        if (darkTheme !== initSystemThemeMode) _toggleDarkTheme()
+        break
+    }
+    _changeThemeMode(mode.value)
+    _updateCodeMirrorOption('theme', themeName)
+    _updateCodeMirrorOption('themeMode', themeName)
   }
+
   const toggleLineHighlight = () =>
     _updateCodeMirrorOption('styleActiveLine', !codeMirrorOptions.styleActiveLine)
   const toggleScrollPastEnd = () =>
@@ -203,12 +230,20 @@ export const SettingsModal: React.FC = () => {
                 checked={previewMarkdown}
                 testId={TestID.MARKDOWN_PREVIEW_TOGGLE}
               />
-              <Option
-                title="Dark mode"
+              {/*<Option*/}
+              {/*  title="Dark mode"*/}
+              {/*  description="Controls the theme of the application and editor"*/}
+              {/*  toggle={toggleDarkThemeHandler}*/}
+              {/*  checked={darkTheme}*/}
+              {/*  testId={TestID.DARK_MODE_TOGGLE}*/}
+              {/*/>*/}
+              <SelectOptions
+                title="Theme"
                 description="Controls the theme of the application and editor"
-                toggle={toggleDarkThemeHandler}
-                checked={darkTheme}
-                testId={TestID.DARK_MODE_TOGGLE}
+                onChange={toggleThemeModeHandler}
+                options={themesModeOptions}
+                selectedValue={themeMode}
+                testId={TestID.THEME_MODE_DROPDOWN}
               />
               <SelectOptions
                 title="Sort By"

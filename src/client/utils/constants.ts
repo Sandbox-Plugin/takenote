@@ -1,4 +1,5 @@
 import { Folder, NotesSortKey, DirectionText } from '@/utils/enums'
+import { ThemeModes } from '@/types'
 
 export const folderMap: Record<Folder, string> = {
   [Folder.ALL]: 'All Notes',
@@ -26,6 +27,12 @@ export const notesSortOptions = [
   { value: NotesSortKey.TITLE, label: 'Title' },
   { value: NotesSortKey.CREATED_DATE, label: 'Date Created' },
   { value: NotesSortKey.LAST_UPDATED, label: 'Last Updated' },
+]
+
+export const themesModeOptions = [
+  { value: ThemeModes.DARK, label: 'Dark' },
+  { value: ThemeModes.LIGHT, label: 'Light' },
+  { value: ThemeModes.SYNC_BY_SYSTEM, label: 'Sync By System' },
 ]
 
 export const directionTextOptions = [
