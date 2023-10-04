@@ -61,3 +61,36 @@
     font-weight: 400;
   }
 }
+
+.note-menu-bar {
+  .note-menu-bar-button {
+    display: block;
+    position: relative;
+  }
+  .note-menu-bar-button .hover-btns {
+    display: none;
+    visibility: visible;
+    position: absolute;
+    bottom: 38px;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0;
+    justify-content: center;
+    right: 0;
+    left: 0;
+    background: #242424;
+    border: 1px solid #141414;
+    padding: 0;
+    margin: 0;
+
+    .note-menu-bar-button {
+      padding: 10px;
+    }
+  }
+
+  .note-menu-bar-button:hover .hover-btns {
+    display: flex;
+    visibility: visible;
+  }
+}
