@@ -42,7 +42,7 @@ describe('<TakeNoteApp />', () => {
         darkTheme: false,
         themeMode: ThemeModes.SYNC_BY_SYSTEM,
         sidebarVisible: true,
-        notesSortKey: NotesSortKey.LAST_UPDATED,
+        notesSortKey: NotesSortKey.LAST_UPDATED_UP,
         codeMirrorOptions: {
           mode: 'gfm',
           theme: 'base16-light',

@@ -24,9 +24,12 @@ export enum ContextMenuEnum {
 }
 
 export enum NotesSortKey {
-  LAST_UPDATED = 'lastUpdated',
-  TITLE = 'title',
-  CREATED_DATE = 'created_date',
+  LAST_UPDATED_UP = 'lastUpdatedUp',
+  LAST_UPDATED_DOWN = 'lastUpdatedDown',
+  TITLE_UP = 'titleUp',
+  TITLE_DOWN = 'titleDown',
+  CREATED_DATE_UP = 'createdDateUp',
+  CREATED_DATE_DOWN = 'createdDateDown',
 }
 
 export enum DirectionText {

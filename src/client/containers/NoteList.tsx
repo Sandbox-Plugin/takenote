@@ -19,6 +19,7 @@ import {
 import { NoteItem, ReactDragEvent, ReactMouseEvent } from '@/types'
 import { getNotes, getSettings, getCategories } from '@/selectors'
 import { getNotesSorter } from '@/utils/notesSortStrategies'
+import { SortSystem } from '@/components/SortSystem'
 
 export const NoteList: React.FC = () => {
   // ===========================================================================
@@ -157,7 +158,10 @@ export const NoteList: React.FC = () => {
   return (
     <aside className="note-sidebar">
       <div className="note-sidebar-header">
-        <SearchBar searchRef={searchRef} searchNotes={_searchNotes} />
+        <div className="search-sort">
+          <SearchBar searchRef={searchRef} searchNotes={_searchNotes} />
+          <SortSystem />
+        </div>
         {showEmptyTrash && (
           <NoteListButton
             dataTestID={TestID.EMPTY_TRASH_BUTTON}
