@@ -28,7 +28,7 @@ export const SortSystem = () => {
 
   return (
     <div className="sort-header">
-      <AlignCenter aria-hidden="true" size={18} />
+      <AlignCenter aria-hidden="true" size={24} />
       <SelectOptions
         title=""
         description=""
