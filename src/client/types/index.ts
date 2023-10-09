@@ -71,6 +71,7 @@ export interface SettingsState {
   sidebarVisible: boolean
   notesSortKey: NotesSortKey
   codeMirrorOptions: { [key: string]: any }
+  color: string
 }
 
 export interface SyncState {
