@@ -39,7 +39,7 @@ export const NoteMenuBar = () => {
   const { notes, activeNoteId } = useSelector(getNotes)
   const { categories } = useSelector(getCategories)
   const { syncing, lastSynced, pendingSync } = useSelector(getSync)
-  const { darkTheme } = useSelector(getSettings)
+  const { darkTheme, color } = useSelector(getSettings)
 
   // ===========================================================================
   // Other
@@ -57,6 +57,7 @@ export const NoteMenuBar = () => {
   const [uuidCopiedText, setUuidCopiedText] = useState<string>('')
   const [isToggled, togglePreviewIcon] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [selectedColor, setSelectedColor] = useState<string>('#5183f5')
 
   // ===========================================================================
   // Hooks
@@ -107,6 +108,7 @@ export const NoteMenuBar = () => {
   }
 
   const handleColorSelection = (color: string) => {
+    setSelectedColor(color)
     dispatch(setColor(color))
     setIsOpen(false)
   }
@@ -182,9 +184,27 @@ export const NoteMenuBar = () => {
           <span className="sr-only">Themes</span>
         </button>
 
-        <div style={{ position: 'relative', top: 6 }}>
-          <button className="note-menu-bar-button" onClick={colorsHandler}>
-            <Box aria-hidden="true" size={18} />
+        <div className="note-menu-bar-section-colors" style={{ position: 'relative', top: 6 }}>
+          <button className={`note-menu-bar-button ${selectedColor}`} onClick={colorsHandler}>
+            {selectedColor ? (
+              <div
+                style={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: '50%',
+                  backgroundColor: color,
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: '50%',
+                  backgroundColor: '#5183f5',
+                }}
+              />
+            )}
             <span className="sr-only">Select Them Colors</span>
           </button>
           {isOpen ? (
@@ -193,14 +213,14 @@ export const NoteMenuBar = () => {
                 position: 'absolute',
                 width: 30,
                 height: 100,
-                bottom: 70,
+                bottom: 89,
                 left: 10,
               }}
               className="color-box"
             >
               <div
                 style={{
-                  backgroundColor: '#ed2020',
+                  backgroundColor: 'red',
                   width: 19,
                   height: '20%',
                   borderRadius: 27,
@@ -210,9 +230,15 @@ export const NoteMenuBar = () => {
                 onClick={() => handleColorSelection('red')}
               />
               <div
-                style={{ backgroundColor: '#31b036', width: 19, height: '20%', borderRadius: 27 }}
+                style={{
+                  backgroundColor: 'orange',
+                  width: 19,
+                  height: '20%',
+                  borderRadius: 27,
+                  margin: '5px 0',
+                }}
                 className="color-option"
-                onClick={() => handleColorSelection('green')}
+                onClick={() => handleColorSelection('orange')}
               />
               <div
                 style={{
@@ -226,20 +252,25 @@ export const NoteMenuBar = () => {
                 onClick={() => handleColorSelection('yellow')}
               />
               <div
-                style={{ backgroundColor: '#3c1694', width: 19, height: '20%', borderRadius: 27 }}
+                style={{ backgroundColor: '#31b036', width: 19, height: '20%', borderRadius: 27 }}
                 className="color-option"
-                onClick={() => handleColorSelection('purple')}
+                onClick={() => handleColorSelection('green')}
               />
               <div
                 style={{
-                  backgroundColor: '#c35d1f',
+                  backgroundColor: 'blue',
                   width: 19,
                   height: '20%',
                   borderRadius: 27,
                   margin: '5px 0',
                 }}
                 className="color-option"
-                onClick={() => handleColorSelection('orange')}
+                onClick={() => handleColorSelection('blue')}
+              />
+              <div
+                style={{ backgroundColor: '#3c1694', width: 19, height: '20%', borderRadius: 27 }}
+                className="color-option"
+                onClick={() => handleColorSelection('purple')}
               />
             </div>
           ) : (
