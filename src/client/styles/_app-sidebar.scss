@@ -17,6 +17,9 @@
   &.purple .app-sidebar-wrapper:hover .app-sidebar-icon {
     stroke: $purple;
   }
+  &.blue .app-sidebar-wrapper:hover .app-sidebar-icon {
+    stroke: $primary;
+  }
   &.yellow .app-sidebar-wrapper:hover .app-sidebar-icon {
     stroke: $yellow;
   }
@@ -214,6 +217,9 @@
   .purple .selected {
     background: $purple;
   }
+  .blue .selected {
+    background: $primary;
+  }
 
   .action-button {
     cursor: pointer;
@@ -249,6 +255,9 @@
 
     &.green:hover {
       background: $green;
+    }
+    &.blue:hover {
+      background: $primary;
     }
 
     &:hover,

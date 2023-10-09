@@ -220,7 +220,7 @@ export const NoteMenuBar = () => {
             >
               <div
                 style={{
-                  backgroundColor: 'red',
+                  backgroundColor: '#ed2020',
                   width: 19,
                   height: '20%',
                   borderRadius: 27,

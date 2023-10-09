@@ -58,7 +58,7 @@ const settingsSlice = createSlice({
     },
 
     loadSettingsSuccess: (state, { payload }: PayloadAction<SettingsState>) => {
-      return { ...payload, loading: false, color: payload.color || 'primary' }
+      return { ...payload, loading: false, color: payload.color || '#5183f5' }
     },
     setColor: (state, { payload }: PayloadAction<string>) => {
       state.color = payload
