@@ -23,6 +23,7 @@ export const initialState: SettingsState = {
   },
   isOpen: false,
   loading: false,
+  color: 'primary',
 }
 
 const settingsSlice = createSlice({
@@ -63,7 +64,10 @@ const settingsSlice = createSlice({
     },
 
     loadSettingsSuccess: (state, { payload }: PayloadAction<SettingsState>) => {
-      return { ...payload, loading: false }
+      return { ...payload, loading: false, color: payload.color || '#5183f5' }
+    },
+    setColor: (state, { payload }: PayloadAction<string>) => {
+      state.color = payload
     },
   },
 })
@@ -78,6 +82,7 @@ export const {
   loadSettings,
   loadSettingsError,
   loadSettingsSuccess,
+  setColor,
 } = settingsSlice.actions
 
 export default settingsSlice.reducer

@@ -9,15 +9,25 @@ import {
   RefreshCw,
   Loader,
   Settings,
+  Sun,
+  Moon,
+  Box,
   Clipboard as ClipboardCmp,
 } from 'react-feather'
 
 import { TestID } from '@resources/TestID'
+import '@/styles/_variables.scss'
 import { LastSyncedNotification } from '@/components/LastSyncedNotification'
 import { NoteItem, CategoryItem } from '@/types'
-import { toggleSettingsModal, togglePreviewMarkdown } from '@/slices/settings'
+import {
+  toggleSettingsModal,
+  togglePreviewMarkdown,
+  toggleDarkTheme,
+  updateCodeMirrorOption,
+  setColor,
+} from '@/slices/settings'
 import { toggleFavoriteNotes, toggleTrashNotes } from '@/slices/note'
-import { getCategories, getNotes, getSync } from '@/selectors'
+import { getCategories, getNotes, getSync, getSettings } from '@/selectors'
 import { downloadNotes, isDraftNote, getShortUuid, copyToClipboard } from '@/utils/helpers'
 import { sync } from '@/slices/sync'
 import { NewThemeService } from '@/newThemeService'
@@ -30,6 +40,7 @@ export const NoteMenuBar = () => {
   const { notes, activeNoteId } = useSelector(getNotes)
   const { categories } = useSelector(getCategories)
   const { syncing, lastSynced, pendingSync } = useSelector(getSync)
+  const { darkTheme, color } = useSelector(getSettings)
 
   // ===========================================================================
   // Other
@@ -46,6 +57,8 @@ export const NoteMenuBar = () => {
 
   const [uuidCopiedText, setUuidCopiedText] = useState<string>('')
   const [isToggled, togglePreviewIcon] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedColor, setSelectedColor] = useState<string>('#5183f5')
 
   // ===========================================================================
   // Hooks
@@ -73,6 +86,9 @@ export const NoteMenuBar = () => {
   const _sync = (notes: NoteItem[], categories: CategoryItem[]) =>
     dispatch(sync({ notes, categories }))
   const _toggleSettingsModal = () => dispatch(toggleSettingsModal())
+  const _toggleDarkTheme = () => dispatch(toggleDarkTheme())
+  const _updateCodeMirrorOption = (key: string, value: any) =>
+    dispatch(updateCodeMirrorOption({ key, value }))
 
   // ===========================================================================
   // Handlers
@@ -83,9 +99,23 @@ export const NoteMenuBar = () => {
   const trashNoteHandler = () => _toggleTrashNotes(activeNoteId)
   const syncNotesHandler = () => _sync(notes, categories)
   const settingsHandler = () => _toggleSettingsModal()
+  const toggleDarkThemeHandler = () => {
+    _toggleDarkTheme()
+    _updateCodeMirrorOption('theme', darkTheme ? 'base16-light' : 'new-moon')
+  }
   const togglePreviewHandler = () => {
     togglePreviewIcon(!isToggled)
     _togglePreviewMarkdown()
+  }
+
+  const handleColorSelection = (color: string) => {
+    setSelectedColor(color)
+    dispatch(setColor(color))
+    setIsOpen(false)
+  }
+
+  const colorsHandler = () => {
+    setIsOpen(true)
   }
 
   return (

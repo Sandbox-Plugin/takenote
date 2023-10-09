@@ -26,7 +26,7 @@ export const NoteList: React.FC = () => {
   // Selectors
   // ===========================================================================
 
-  const { notesSortKey } = useSelector(getSettings)
+  const { notesSortKey, color } = useSelector(getSettings)
   const { activeCategoryId, activeFolder, selectedNotesIds, notes, searchValue } =
     useSelector(getNotes)
   const { categories } = useSelector(getCategories)
@@ -156,7 +156,7 @@ export const NoteList: React.FC = () => {
   useKey(Shortcuts.SEARCH, () => focusSearchHandler())
 
   return (
-    <aside className="note-sidebar">
+    <aside className={`note-sidebar ${color}`}>
       <div className="note-sidebar-header">
         <div className="search-sort">
           <SearchBar searchRef={searchRef} searchNotes={_searchNotes} />
@@ -172,7 +172,7 @@ export const NoteList: React.FC = () => {
           </NoteListButton>
         )}
       </div>
-      <div data-testid={TestID.NOTE_LIST} className="note-list">
+      <div data-testid={TestID.NOTE_LIST} className={`note-list ${color}`}>
         {filteredNotes.map((note: NoteItem, index: number) => {
           let noteTitle: string | React.ReactElement = getNoteTitle(note.text)
           const noteCategory = categories.find((category) => category.id === note.category)

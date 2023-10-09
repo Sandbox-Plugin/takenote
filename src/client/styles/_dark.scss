@@ -86,10 +86,33 @@ $dark-editor: #3f3f3f;
           }
         }
 
-        &.selected {
+        .primary .selected {
           background: $primary;
+        }
+
+        .red .selected {
+          background: $red;
+        }
+
+        .green .selected {
+          background: $green;
+        }
+
+        .orange .selected {
+          background: $orange;
+        }
+
+        .yellow .selected {
+          background: $yellow;
+        }
+
+        .purple .selected {
+          background: $purple;
+        }
+
+        &.selected {
           color: white;
-          border-bottom: 1px solid darken($primary, 5%);
+          border-bottom: 1px solid transparent;
 
           &:hover {
             .note-options {

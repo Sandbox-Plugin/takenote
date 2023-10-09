@@ -17,6 +17,7 @@ import {
   toggleSettingsModal,
   updateNotesSortStrategy,
   changeThemeMode,
+  setColor,
 } from '@/slices/settings'
 import { SyncAction } from '@/types'
 import { getSettings } from '@/selectors'
@@ -33,7 +34,7 @@ function* loginUser() {
 
       yield put(loginSuccess(data))
     }
-  } catch (error) {
+  } catch (error: any) {
     yield put(loginError(error.message))
   }
 }
@@ -65,7 +66,7 @@ function* fetchNotes() {
     const { notesSortKey } = yield select(getSettings)
 
     yield put(loadNotesSuccess({ notes: data, sortOrderKey: notesSortKey }))
-  } catch (error) {
+  } catch (error: any) {
     yield put(loadNotesError(error.message))
   }
 }
@@ -81,7 +82,7 @@ function* fetchCategories() {
     }
 
     yield put(loadCategoriesSuccess(data))
-  } catch (error) {
+  } catch (error: any) {
     yield put(loadCategoriesError(error.message))
   }
 }
@@ -106,7 +107,7 @@ function* syncData({ payload }: SyncAction) {
       yield axios.post('/api/sync', payload)
     }
     yield put(syncSuccess(dayjs().format()))
-  } catch (error) {
+  } catch (error: any) {
     yield put(syncError(error.message))
   }
 }
@@ -136,6 +137,7 @@ function* rootSaga() {
         updateCodeMirrorOption.type,
         toggleSettingsModal.type,
         updateNotesSortStrategy.type,
+        setColor.type,
       ],
       syncSettings
     ),
