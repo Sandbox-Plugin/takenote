@@ -5,6 +5,27 @@
   flex-direction: column;
   border-right: 1px solid darken($app-sidebar-color, 10%);
   z-index: 3;
+  &.primary .app-sidebar-wrapper:hover .app-sidebar-icon {
+    stroke: $primary;
+  }
+  &.red .app-sidebar-wrapper:hover .app-sidebar-icon {
+    stroke: $red;
+  }
+  &.orange .app-sidebar-wrapper:hover .app-sidebar-icon {
+    stroke: $orange;
+  }
+  &.purple .app-sidebar-wrapper:hover .app-sidebar-icon {
+    stroke: $purple;
+  }
+  &.blue .app-sidebar-wrapper:hover .app-sidebar-icon {
+    stroke: $primary;
+  }
+  &.yellow .app-sidebar-wrapper:hover .app-sidebar-icon {
+    stroke: $yellow;
+  }
+  &.green .app-sidebar-wrapper:hover .app-sidebar-icon {
+    stroke: $green;
+  }
 
   &-settings {
     cursor: pointer;
@@ -22,31 +43,38 @@
     bottom: 0;
     left: 0;
     width: 100%;
+
     &:focus {
       background: $app-sidebar-color;
     }
+
     &:hover {
       background: lighten($app-sidebar-color, 5%);
+
       .user-settings-icon {
         margin-left: auto;
         margin-right: 0.5rem;
         color: lighten($app-sidebar-color, 60%);
       }
     }
+
     .user-avatar {
       border-radius: 50%;
       max-width: 40px;
       margin-right: 0.75rem;
     }
+
     .user-name {
       font-weight: 600;
       font-size: 0.95rem;
       margin-bottom: 0.25rem;
     }
+
     .user-subtitle {
       color: lighten($app-sidebar-color, 30%);
       font-size: 0.85rem;
     }
+
     .user-settings-icon {
       margin-left: auto;
       margin-right: 0.5rem;
@@ -99,12 +127,30 @@
       }
     }
 
-    &.active {
+    .primary .active {
       color: white;
       background: darken($app-sidebar-color, 5%);
 
       svg {
         stroke: $primary;
+      }
+    }
+
+    .red .active {
+      color: white;
+      background: darken($app-sidebar-color, 5%);
+
+      svg {
+        stroke: $yellow;
+      }
+    }
+
+    .orange .active {
+      color: white;
+      background: darken($app-sidebar-color, 5%);
+
+      svg {
+        stroke: $orange;
       }
     }
 
@@ -148,6 +194,33 @@
     margin-bottom: 1rem;
   }
 
+  .primary .selected {
+    background: $primary;
+  }
+
+  .red .selected {
+    background: $red;
+  }
+
+  .green .selected {
+    background: $green;
+  }
+
+  .orange .selected {
+    background: $orange;
+  }
+
+  .yellow .selected {
+    background: $yellow;
+  }
+
+  .purple .selected {
+    background: $purple;
+  }
+  .blue .selected {
+    background: $primary;
+  }
+
   .action-button {
     cursor: pointer;
     display: flex;
@@ -164,6 +237,29 @@
       margin-right: 0.75rem;
     }
 
+    &.red:hover {
+      background: $red;
+    }
+
+    &.orange:hover {
+      background: $orange;
+    }
+
+    &.purple:hover {
+      background: $purple;
+    }
+
+    &.yellow:hover {
+      background: $yellow;
+    }
+
+    &.green:hover {
+      background: $green;
+    }
+    &.blue:hover {
+      background: $primary;
+    }
+
     &:hover,
     &:focus {
       background: $primary;
@@ -176,9 +272,12 @@
 
     .action-button-icon {
       stroke: white;
-      background: $primary;
       border-radius: 0.3rem;
     }
+  }
+
+  .primary .action-button-icon {
+    background: $primary;
   }
 
   .category {
@@ -294,6 +393,7 @@
         & > *:not(:last-child) {
           margin-right: 0.3rem;
         }
+
         &.active {
           color: lighten($app-sidebar-color, 20%);
         }
