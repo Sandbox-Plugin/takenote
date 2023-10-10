@@ -24,9 +24,18 @@ export const shortcutMap = [
 ]
 
 export const notesSortOptions = [
-  { value: NotesSortKey.TITLE, label: 'Title' },
-  { value: NotesSortKey.CREATED_DATE, label: 'Date Created' },
-  { value: NotesSortKey.LAST_UPDATED, label: 'Last Updated' },
+  { value: NotesSortKey.TITLE_UP, label: 'Title ↑', direction: 'top' },
+  { value: NotesSortKey.TITLE_DOWN, label: 'Title ↓', direction: 'down' },
+  { value: NotesSortKey.CREATED_DATE_UP, label: 'Date Created ↑', direction: 'top' },
+  { value: NotesSortKey.CREATED_DATE_DOWN, label: 'Date Created ↓', direction: 'down' },
+  { value: NotesSortKey.LAST_UPDATED_UP, label: 'Last Updated ↑', direction: 'top' },
+  { value: NotesSortKey.LAST_UPDATED_DOWN, label: 'Last Updated ↓', direction: 'down' },
+]
+
+export const themesModeOptions = [
+  { value: ThemeModes.DARK, label: 'Dark' },
+  { value: ThemeModes.LIGHT, label: 'Light' },
+  { value: ThemeModes.SYNC_BY_SYSTEM, label: 'Sync By System' },
 ]
 
 export const themesModeOptions = [

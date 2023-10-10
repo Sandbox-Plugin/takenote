@@ -248,3 +248,11 @@ kbd {
     transform: rotate(360deg);
   }
 }
+
+.search-sort {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 5px;
+}

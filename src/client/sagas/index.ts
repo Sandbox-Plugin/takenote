@@ -16,6 +16,7 @@ import {
   togglePreviewMarkdown,
   toggleSettingsModal,
   updateNotesSortStrategy,
+  changeThemeMode,
   setColor,
   changeThemeMode,
 } from '@/slices/settings'

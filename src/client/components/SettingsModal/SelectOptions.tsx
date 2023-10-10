@@ -22,8 +22,8 @@ export const SelectOptions: React.FC<OptionProps> = ({
   return (
     <div className="settings-option">
       <div>
-        <h3>{title}</h3>
-        <p className="description">{description}</p>
+        {title && <h3>{title}</h3>}
+        {description && <p className="description">{description}</p>}
       </div>
       <Select options={options} onChange={onChange} selectedValue={selectedValue} testId={testId} />
     </div>
