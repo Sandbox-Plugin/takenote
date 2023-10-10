@@ -1,7 +1,9 @@
 import React, { MouseEventHandler } from 'react'
 import { Icon } from 'react-feather'
+import { useSelector } from 'react-redux'
 
 import { iconColor } from '@/utils/constants'
+import { getSettings } from '@/selectors'
 
 export interface ActionButtonProps {
   dataTestID: string
@@ -20,10 +22,13 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
   label,
   text,
 }) => {
+  //
+  const { color } = useSelector(getSettings)
+
   return (
     <button
       data-testid={dataTestID}
-      className="action-button"
+      className={`action-button ${color}`}
       aria-label={label}
       onClick={handler}
       disabled={disabled}

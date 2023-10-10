@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Book, Star, Trash2 } from 'react-feather'
+import { useSelector } from 'react-redux'
 
 import { Folder } from '@/utils/enums'
 import { iconColor } from '@/utils/constants'
 import { ReactDragEvent } from '@/types'
+import { getSettings } from '@/selectors'
 
 export interface FolderOptionProps {
   text: string
@@ -29,6 +31,9 @@ export const FolderOption: React.FC<FolderOptionProps> = ({
     [Folder.TRASH]: false,
     [Folder.CATEGORY]: false,
   })
+
+  const { color } = useSelector(getSettings)
+
   const dragEnterHandler = () => {
     setMainSectionDragState({ ...mainSectionDragState, [folder]: true })
   }
@@ -54,11 +59,29 @@ export const FolderOption: React.FC<FolderOptionProps> = ({
 
   const renderIcon = () => {
     if (folder === 'FAVORITES') {
-      return <Star size={15} className="app-sidebar-icon" color={iconColor} />
+      return (
+        <Star
+          size={15}
+          className="app-sidebar-icon"
+          color={color != 'primary' ? color : iconColor}
+        />
+      )
     } else if (folder === 'ALL') {
-      return <Book size={15} className="app-sidebar-icon" color={iconColor} />
+      return (
+        <Book
+          size={15}
+          className="app-sidebar-icon"
+          color={color != 'primary' ? color : iconColor}
+        />
+      )
     } else {
-      return <Trash2 size={15} className="app-sidebar-icon" color={iconColor} />
+      return (
+        <Trash2
+          size={15}
+          className="app-sidebar-icon"
+          color={color != 'primary' ? color : iconColor}
+        />
+      )
     }
   }
 

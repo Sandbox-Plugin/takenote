@@ -37,18 +37,21 @@
     color: lighten($font-color, 15%);
     padding: 0 0.75rem;
     margin: 0;
+
     &.trash {
       &:hover {
         color: darken($error, 20%);
       }
     }
+
     &:hover {
       color: $font-color;
-      background: darken($note-sidebar-color, 5%);
     }
+
     &:active svg {
       transform: scale(1.1);
     }
+
     &.uuid {
       display: flex;
       align-items: center;
@@ -59,6 +62,31 @@
     padding-left: 0.5rem;
     font-size: 0.7rem;
     font-weight: 400;
+  }
+
+  .note-menu-bar-section-colors {
+    position: relative;
+    top: 6px;
+
+    .color-box {
+      position: absolute;
+      width: 30px;
+      height: 100px;
+      bottom: 89px;
+      left: 10px;
+
+      .color-option {
+        background-color: blue;
+        width: 19px;
+        height: 20%;
+        border-radius: 27px;
+        margin: 5px 0;
+
+        &:hover {
+          background-color: darken($note-sidebar-color, 10%);
+        }
+      }
+    }
   }
 }
 
