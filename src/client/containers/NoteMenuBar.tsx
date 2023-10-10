@@ -9,9 +9,6 @@ import {
   RefreshCw,
   Loader,
   Settings,
-  Sun,
-  Moon,
-  Box,
   Clipboard as ClipboardCmp,
 } from 'react-feather'
 
@@ -169,6 +166,100 @@ export const NoteMenuBar = () => {
         </button>
 
         <NewThemeService />
+
+        <div className="note-menu-bar-section-colors" style={{ position: 'relative', top: 6 }}>
+          <button className={`note-menu-bar-button ${selectedColor}`} onClick={colorsHandler}>
+            {selectedColor ? (
+              <div
+                style={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: '50%',
+                  backgroundColor: color,
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: '50%',
+                  backgroundColor: '#5183f5',
+                }}
+              />
+            )}
+            <span className="sr-only">Select Them Colors</span>
+          </button>
+          {isOpen ? (
+            <div
+              style={{
+                position: 'absolute',
+                width: 30,
+                height: 100,
+                bottom: 89,
+                left: 10,
+              }}
+              className="color-box"
+            >
+              <div
+                style={{
+                  backgroundColor: '#ed2020',
+                  width: 19,
+                  height: '20%',
+                  borderRadius: 27,
+                  margin: '5px 0',
+                }}
+                className="color-option"
+                onClick={() => handleColorSelection('red')}
+              />
+              <div
+                style={{
+                  backgroundColor: 'orange',
+                  width: 19,
+                  height: '20%',
+                  borderRadius: 27,
+                  margin: '5px 0',
+                }}
+                className="color-option"
+                onClick={() => handleColorSelection('orange')}
+              />
+              <div
+                style={{
+                  backgroundColor: '#d9ac09',
+                  width: 19,
+                  height: '20%',
+                  borderRadius: 27,
+                  margin: '5px 0',
+                }}
+                className="color-option"
+                onClick={() => handleColorSelection('yellow')}
+              />
+              <div
+                style={{ backgroundColor: '#31b036', width: 19, height: '20%', borderRadius: 27 }}
+                className="color-option"
+                onClick={() => handleColorSelection('green')}
+              />
+              <div
+                style={{
+                  backgroundColor: 'blue',
+                  width: 19,
+                  height: '20%',
+                  borderRadius: 27,
+                  margin: '5px 0',
+                }}
+                className="color-option"
+                onClick={() => handleColorSelection('blue')}
+              />
+              <div
+                style={{ backgroundColor: '#3c1694', width: 19, height: '20%', borderRadius: 27 }}
+                className="color-option"
+                onClick={() => handleColorSelection('purple')}
+              />
+            </div>
+          ) : (
+            ''
+          )}
+        </div>
 
         <button className="note-menu-bar-button" onClick={settingsHandler}>
           <Settings aria-hidden="true" size={18} />
