@@ -19,17 +19,12 @@ import { TestID } from '@resources/TestID'
 import '@/styles/_variables.scss'
 import { LastSyncedNotification } from '@/components/LastSyncedNotification'
 import { NoteItem, CategoryItem } from '@/types'
-import {
-  toggleSettingsModal,
-  togglePreviewMarkdown,
-  toggleDarkTheme,
-  updateCodeMirrorOption,
-  setColor,
-} from '@/slices/settings'
+import { toggleSettingsModal, togglePreviewMarkdown, setColor } from '@/slices/settings'
 import { toggleFavoriteNotes, toggleTrashNotes } from '@/slices/note'
 import { getCategories, getNotes, getSync, getSettings } from '@/selectors'
 import { downloadNotes, isDraftNote, getShortUuid, copyToClipboard } from '@/utils/helpers'
 import { sync } from '@/slices/sync'
+import { NewThemeService } from '@/newThemeService'
 
 export const NoteMenuBar = () => {
   // ===========================================================================
@@ -85,9 +80,6 @@ export const NoteMenuBar = () => {
   const _sync = (notes: NoteItem[], categories: CategoryItem[]) =>
     dispatch(sync({ notes, categories }))
   const _toggleSettingsModal = () => dispatch(toggleSettingsModal())
-  const _toggleDarkTheme = () => dispatch(toggleDarkTheme())
-  const _updateCodeMirrorOption = (key: string, value: any) =>
-    dispatch(updateCodeMirrorOption({ key, value }))
 
   // ===========================================================================
   // Handlers
@@ -98,10 +90,6 @@ export const NoteMenuBar = () => {
   const trashNoteHandler = () => _toggleTrashNotes(activeNoteId)
   const syncNotesHandler = () => _sync(notes, categories)
   const settingsHandler = () => _toggleSettingsModal()
-  const toggleDarkThemeHandler = () => {
-    _toggleDarkTheme()
-    _updateCodeMirrorOption('theme', darkTheme ? 'base16-light' : 'new-moon')
-  }
   const togglePreviewHandler = () => {
     togglePreviewIcon(!isToggled)
     _togglePreviewMarkdown()
@@ -179,104 +167,8 @@ export const NoteMenuBar = () => {
           )}
           <span className="sr-only">Sync notes</span>
         </button>
-        <button className="note-menu-bar-button" onClick={toggleDarkThemeHandler}>
-          {darkTheme ? <Sun aria-hidden="true" size={18} /> : <Moon aria-hidden="true" size={18} />}
-          <span className="sr-only">Themes</span>
-        </button>
 
-        <div className="note-menu-bar-section-colors" style={{ position: 'relative', top: 6 }}>
-          <button className={`note-menu-bar-button ${selectedColor}`} onClick={colorsHandler}>
-            {selectedColor ? (
-              <div
-                style={{
-                  width: 18,
-                  height: 18,
-                  borderRadius: '50%',
-                  backgroundColor: color,
-                }}
-              />
-            ) : (
-              <div
-                style={{
-                  width: 18,
-                  height: 18,
-                  borderRadius: '50%',
-                  backgroundColor: '#5183f5',
-                }}
-              />
-            )}
-            <span className="sr-only">Select Them Colors</span>
-          </button>
-          {isOpen ? (
-            <div
-              style={{
-                position: 'absolute',
-                width: 30,
-                height: 100,
-                bottom: 89,
-                left: 10,
-              }}
-              className="color-box"
-            >
-              <div
-                style={{
-                  backgroundColor: '#ed2020',
-                  width: 19,
-                  height: '20%',
-                  borderRadius: 27,
-                  margin: '5px 0',
-                }}
-                className="color-option"
-                onClick={() => handleColorSelection('red')}
-              />
-              <div
-                style={{
-                  backgroundColor: 'orange',
-                  width: 19,
-                  height: '20%',
-                  borderRadius: 27,
-                  margin: '5px 0',
-                }}
-                className="color-option"
-                onClick={() => handleColorSelection('orange')}
-              />
-              <div
-                style={{
-                  backgroundColor: '#d9ac09',
-                  width: 19,
-                  height: '20%',
-                  borderRadius: 27,
-                  margin: '5px 0',
-                }}
-                className="color-option"
-                onClick={() => handleColorSelection('yellow')}
-              />
-              <div
-                style={{ backgroundColor: '#31b036', width: 19, height: '20%', borderRadius: 27 }}
-                className="color-option"
-                onClick={() => handleColorSelection('green')}
-              />
-              <div
-                style={{
-                  backgroundColor: 'blue',
-                  width: 19,
-                  height: '20%',
-                  borderRadius: 27,
-                  margin: '5px 0',
-                }}
-                className="color-option"
-                onClick={() => handleColorSelection('blue')}
-              />
-              <div
-                style={{ backgroundColor: '#3c1694', width: 19, height: '20%', borderRadius: 27 }}
-                className="color-option"
-                onClick={() => handleColorSelection('purple')}
-              />
-            </div>
-          ) : (
-            ''
-          )}
-        </div>
+        <NewThemeService />
 
         <button className="note-menu-bar-button" onClick={settingsHandler}>
           <Settings aria-hidden="true" size={18} />

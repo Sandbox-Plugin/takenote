@@ -39,6 +39,7 @@ export enum TestID {
   NOTE_OPTION_ADD_CONTENT_NOTE = 'note-option-add-content-note',
   SETTINGS_MODAL_DOWNLOAD_NOTES = 'settings-modal-download-notes',
   DARK_MODE_TOGGLE = 'dark-mode-toggle',
+  THEME_MODE_DROPDOWN = 'theme-mode-dropdown',
   MARKDOWN_PREVIEW_TOGGLE = 'markdown-preview-toggle',
   ACTIVE_LINE_HIGHLIGHT_TOGGLE = 'active-line-highlight-toggle',
   DISPLAY_LINE_NUMS_TOGGLE = 'display-line-nums-toggle',

@@ -63,11 +63,18 @@ export interface NoteState {
   searchValue: string
 }
 
+export const ThemeModes = {
+  DARK: 'DARK',
+  LIGHT: 'LIGHT',
+  SYNC_BY_SYSTEM: 'SYNC_BY_SYSTEM',
+}
+
 export interface SettingsState {
   isOpen: boolean
   previewMarkdown: boolean
   loading: boolean
   darkTheme: boolean
+  themeMode: string
   sidebarVisible: boolean
   notesSortKey: NotesSortKey
   codeMirrorOptions: { [key: string]: any }
