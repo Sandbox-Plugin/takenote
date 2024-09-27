@@ -1,12 +1,15 @@
 import path from 'path'
 
-import express, { Router } from 'express'
+import express from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
 
-export default function initializeServer(router: Router) {
+import { getNote, getAllNotes, saveNote, deleteNote } from './router/note'
+import { deleteNoteCategory, getAllNoteCategories, getNoteCategory, saveNoteCategory } from './router/noteCategory'
+
+export default function initializeServer() {
   const app = express()
   const isProduction = process.env.NODE_ENV === 'production'
   const origin = { origin: isProduction ? false : '*' }
@@ -19,16 +22,25 @@ export default function initializeServer(router: Router) {
   app.use(compression())
 
   app.use((request, response, next) => {
-    response.header('Content-Security-Policy', "img-src 'self' *.githubusercontent.com")
-
     return next()
   })
 
   app.use(express.static(path.join(__dirname, '../../dist/')))
-  app.use('/api', router)
-  app.get('*', (request, response) => {
-    response.sendFile(path.join(__dirname, '../../dist/index.html'))
-  })
-
+  registerRouters(app);
+  
   return app
 }
+
+function registerRouters(app: any) {
+  app.route('/api/note').get(getNote)
+  app.route('/api/note').post(saveNote)
+  app.route('/api/note/all').get(getAllNotes)
+  app.route('/api/note').delete(deleteNote)
+  app.route('/api/noteCategory').get(getNoteCategory)
+  app.route('/api/noteCategory').post(saveNoteCategory)
+  app.route('/api/noteCategory/all').get(getAllNoteCategories)
+  app.route('/api/noteCategory').delete(deleteNoteCategory)
+}
+
+
+

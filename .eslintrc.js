@@ -28,13 +28,14 @@ module.exports = {
         'newlines-between': 'always',
       },
     ],
-    'no-console': 1, // Warning to reduce console logs used throughout app
+    'no-console': 0, // Warning to reduce console logs used throughout app
     'react/prop-types': 0, // Not using prop-types because we have TypeScript
     'newline-before-return': 1,
     'no-useless-return': 1,
     'prefer-const': 1,
     'no-useless-return': 1,
     'no-unused-vars': 0,
+    'prettier/prettier': 0,
   },
   settings: {
     'import/resolver': {

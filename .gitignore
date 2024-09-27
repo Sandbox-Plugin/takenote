@@ -13,3 +13,4 @@ npm-debug.log*
 tests/e2e/videos
 
 package-lock.json
+TakeNote.db
